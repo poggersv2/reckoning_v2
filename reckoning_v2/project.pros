@@ -592,7 +592,8 @@
       }
     },
     "upload_options": {
-      "icon": "pizza"
+      "icon": "pizza",
+      "description": "My PROS Project"
     },
     "use_early_access": false
   }

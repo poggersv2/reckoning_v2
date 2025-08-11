@@ -41,7 +41,7 @@
 #include <cstdint>
 #include <string>
 
-#include "liblvgl/llemu.h"  
+#include "liblvgl/llemu.h"  // NOLINT
 
 namespace pros {
 
