@@ -6,6 +6,7 @@
 #include "pros/rtos.hpp"
 #include <cmath> // for pow() and fabs()
 
+
 void initialize() {}
 
 void disabled() {}
@@ -145,20 +146,27 @@ void autonomous() {
     driveDistance(1000, 1000);
 }
 
+// Exponential drive function based on VEX forum equation
+double exponential_drive(double x) {
+    double sign = (x >= 0) ? 1.0 : -1.0;
+    double abs_x = fabs(x);
+    double y = 1.2 * pow(1.043, abs_x) - 1.2 + 0.2 * abs_x;
+    return sign * y;
+}
+
 void opcontrol() {
 	while (true) {
 		// Left and right y inputs
 		double left_stick = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
 		double right_stick = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
-		pros::delay(20);
 
-		// // Turn stick movement into exponetial drive function
-		// double left_speed = exponential_drive(right_stick);
-		// double right_speed = exponential_drive(left_stick);
+		// Apply exponential drive function
+		double left_speed = exponential_drive(left_stick);
+		double right_speed = exponential_drive(right_stick);
 
 		// Move motors
-		left_mg.move(left_stick);
-		right_mg.move(right_stick);
+		left_mg.move(left_speed);
+		right_mg.move(right_speed);
 		pros::delay(20);
 
         // OUTTAKE 
