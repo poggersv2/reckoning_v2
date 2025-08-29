@@ -1,0 +1,77 @@
+/* PID  *
+ * WIP! 
+ * Reference: https://www.vexforum.com/t/how-to-implement-a-pid/92878/2
+ // 
+
+// void drive_pid(double target, double kp, double ki, double kd) {
+//     double error = 0; 
+//     double prev_error = 0;
+//     double integral = 0;
+//     double derivative = 0;
+
+//     const double tolerance = 5; // acceptable error in encoder ticks
+//     const int max_time = 3000;   // timeout in ms
+//     int elapsed_time = 0;
+
+//     // Reset encoders
+//     left_mg.tare_position();
+//     right_mg.tare_position();
+
+//     while (elapsed_time < max_time) {
+//         // Calculate average position of drivetrain
+//         double left_pos = left_mg.get_position();
+//         double right_pos = right_mg.get_position();
+//         double average_pos = (left_pos + right_pos) / 2.0;
+
+//         // PID calculations
+//         error = target - average_pos;
+//         integral += error;
+//         derivative = error - prev_error;
+
+//         // PID output
+//         double output = (kp * error) + (ki * integral) + (kd * derivative);
+
+//         // Move drivetrain
+//         left_mg.move(output);
+//         right_mg.move(output);
+
+//         prev_error = error;
+
+//         // Exit if within tolerance
+//         if (fabs(error) < tolerance) break;
+
+//         pros::delay(20);
+//         elapsed_time += 20;
+//     }
+
+//     // Stop motors
+//     left_mg.move(0);
+//     right_mg.move(0);
+// }
+*/
+
+
+
+
+// PID STUFF
+// drive_pid(950, 0.3, 0.0, 0.9);
+    // top_intake.move(127);
+    // bottom_intake.move(127);
+    // bottom_back_intake.move(127);
+    // pros::delay(20);
+    // top_intake.move(0);
+    // bottom_intake.move(0);
+    // bottom_back_intake.move(0);
+
+// double exponential_drive(double x) {
+//     // double sign;
+//     // if (x >= 0) {
+//     //     sign = 1.0;
+//     // } else {
+//     //     sign = -1.0;
+//     // }
+//     // double mag = fabs(x);               
+//     // double y = 1.2 * pow(1.043, mag) - 1.2 + 0.2 * mag;
+//     // return sign * y;    
+//     return x;            
+// }
