@@ -44,6 +44,33 @@ double exponential_drive(double x) {
 
 bool tounge_state = false;
 
+
+void intake_bang_bang(int top_intake_desired, int bottom_intake_desired, int bottom_back_intake_desired, int threshold){
+    // Bang-bang for top intake
+    int top_error = top_intake_desired - top_intake.get_actual_velocity();
+    if (std::abs(top_error) > threshold) {
+        top_intake.move((top_error > 0) ? 127 : -127);
+    } else {
+        top_intake.move(0);
+    }
+
+    // Bang-bang for bottom intake
+    int bottom_error = bottom_intake_desired - bottom_intake.get_actual_velocity();
+    if (std::abs(bottom_error) > threshold) {
+        bottom_intake.move((bottom_error > 0) ? 127 : -127);
+    } else {
+        bottom_intake.move(0);
+    }
+
+    // Bang-bang for bottom back intake
+    int back_error = bottom_back_intake_desired - bottom_back_intake.get_actual_velocity();
+    if (std::abs(back_error) > threshold) {
+        bottom_back_intake.move((back_error > 0) ? 127 : -127);
+    } else {
+        bottom_back_intake.move(0);
+    }
+}
+
 void opcontrol() {
     // Slew rate variables
     double prev_left = 0;
@@ -85,32 +112,19 @@ void opcontrol() {
         // r2 middle 
 
         // MIDDLE
+        // Use bang-bang intake control
         if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-            top_intake.move(127);
-            bottom_intake.move(-127);
-            bottom_back_intake.move(-127);
-        // OUTTAKE
+            intake_bang_bang(127, -127, -127, 10);
         } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-            top_intake.move(127);
-            bottom_intake.move(127);
-            bottom_back_intake.move(127);
-        // INTAKE
+            intake_bang_bang(127, 127, 127, 10);
         } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-            top_intake.move(-127);
-            bottom_intake.move(127);
-            bottom_back_intake.move(-127);
-        // TOP
+            intake_bang_bang(-127, 127, -127, 10);
         } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-            top_intake.move(127);
-            bottom_intake.move(127);
-            bottom_back_intake.move(-127);
+            intake_bang_bang(127, 127, -127, 10);
         } else {
-            top_intake.move_voltage(0);
-            bottom_intake.move_voltage(0);
-            bottom_back_intake.move_voltage(0);
-        };
+            intake_bang_bang(0, 0, 0, 10);
+        }
         
-
 		// .disable_gesture();
     	pros::delay(20);
         
